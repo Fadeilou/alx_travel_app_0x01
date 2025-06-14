@@ -240,21 +240,109 @@ alx_travel_app_0x00/
 - Provides flexible seeding for development and testing
 - Uses Django best practices for model design
 
-## Testing
+## Quick Start
 
-Run tests with:
+### 1. Start the development server:
 ```bash
-python manage.py test
+python manage.py runserver
 ```
 
-## Contributing
+### 2. Access API Documentation:
+- **Swagger UI**: http://localhost:8000/swagger/
+- **ReDoc**: http://localhost:8000/redoc/
+- **Admin Panel**: http://localhost:8000/admin/
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
+### 3. Test API Endpoints:
+```bash
+# Test the API endpoints
+python test_api.py
 
-## License
+# Or manually test with curl:
+curl -X GET "http://localhost:8000/api/listings/"
+curl -X GET "http://localhost:8000/api/listings/available/?guests=2&check_in_date=2024-07-01&check_out_date=2024-07-07"
+```
 
-This project is part of the ALX Software Engineering program.
+## API Endpoint Examples
+
+### Listings
+```bash
+# List all listings with filtering
+GET /api/listings/?category=apartment&location=paris&max_guests=4
+
+# Search listings
+GET /api/listings/?search=beach&ordering=-price_per_night
+
+# Get available listings for specific dates
+GET /api/listings/available/?check_in_date=2024-07-01&check_out_date=2024-07-07&guests=2
+```
+
+### Bookings (Authentication Required)
+```bash
+# Create a booking
+POST /api/bookings/
+{
+  "listing_id": "uuid-here",
+  "check_in_date": "2024-07-01", 
+  "check_out_date": "2024-07-07",
+  "guests": 2
+}
+
+# Update booking status
+POST /api/bookings/{id}/update_status/
+{
+  "status": "confirmed"
+}
+```
+
+### Reviews
+```bash
+# Create a review
+POST /api/reviews/
+{
+  "listing_id": "uuid-here",
+  "rating": 5,
+  "comment": "Amazing place!"
+}
+
+# Get reviews for a specific listing
+GET /api/reviews/?listing_id=uuid-here
+```
+
+## Testing
+
+Run the comprehensive API test:
+```bash
+python test_api.py
+```
+
+This will test:
+- ✅ All CRUD operations
+- ✅ Authentication and permissions  
+- ✅ Data validation
+- ✅ Filtering and search
+- ✅ Custom endpoints (availability, status updates)
+
+## Production Deployment
+
+1. **Environment Setup**:
+   ```bash
+   export DEBUG=False
+   export SECRET_KEY='your-production-secret-key'
+   export DATABASE_URL='your-production-database-url'
+   ```
+
+2. **Install Production Dependencies**:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. **Run Migrations**:
+   ```bash
+   python manage.py migrate
+   python manage.py collectstatic
+   ```
+
+4. **Create Admin User**:
+   ```bash
+   python manage.py createsuperuser
+   ```
