@@ -1,0 +1,13 @@
+django
+djangorestframework
+django-cors-headers
+django-filter
+drf-yasg
+celery
+# For RabbitMQ, Celery needs a broker client. amqp or redis-py are common.
+# We'll use amqp for RabbitMQ.
+amqp
+# For MySQL
+mysqlclient
+# For environment variables
+django-environ

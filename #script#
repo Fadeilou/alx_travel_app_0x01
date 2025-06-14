@@ -1,0 +1,114 @@
+mkdir -p "/home/fadel/Workspaces/ALX PROJECT/alx_travel_app_0x00/listings/management/commands"
+cd "/home/fadel/Workspaces/ALX PROJECT/alx_travel_app_0x00" && python3 -m venv venv
+sudo apt update && sudo apt install -y pkg-config libmysqlclient-dev python3-dev
+cd "/home/fadel/Workspaces/ALX PROJECT/alx_travel_app_0x00" && source venv/bin/activate && pip install -r requirements-dev.txt
+cd "/home/fadel/Workspaces/ALX PROJECT/alx_travel_app_0x00" && source venv/bin/activate && pip install -r requirements-dev.txt
+cd "/home/fadel/Workspaces/ALX PROJECT/alx_travel_app_0x00" && python3 -m venv venv && source venv/bin/activate && pip install -r requirements-dev.txt
+cd "/home/fadel/Workspaces/ALX PROJECT/alx_travel_app_0x00" && python3 -m venv venv
+cd "/home/fadel/Workspaces/ALX PROJECT/alx_travel_app_0x00" && source venv/bin/activate && pip install -r requirements-dev.txt
+cd "/home/fadel/Workspaces/ALX PROJECT/alx_travel_app_0x00" && source venv/bin/activate && python manage.py makemigrations
+cd "/home/fadel/Workspaces/ALX PROJECT/alx_travel_app_0x00" && source venv/bin/activate && python manage.py check
+cd "/home/fadel/Workspaces/ALX PROJECT/alx_travel_app_0x00" && ls -la venv/
+cd "/home/fadel/Workspaces/ALX PROJECT/alx_travel_app_0x00" && python3 -c "import django; print('Django version:', django.get_version())"
+cd "/home/fadel/Workspaces/ALX PROJECT/alx_travel_app_0x00" && pip install django --break-system-packages
+cd "/home/fadel/Workspaces/ALX PROJECT/alx_travel_app_0x00" && python manage.py seed --help
+cd "/home/fadel/Workspaces/ALX PROJECT/alx_travel_app_0x00" && python manage.py help
+cd "/home/fadel/Workspaces/ALX PROJECT/alx_travel_app_0x00" && python manage.py shell -c "
+from django.contrib.auth.models import User
+from listings.models import Listing, Booking, Review
+
+print('=== Database Summary ===')
+print(f'Users: {User.objects.count()}')
+print(f'Listings: {Listing.objects.count()}')
+print(f'Bookings: {Booking.objects.count()}')
+print(f'Reviews: {Review.objects.count()}')
+
+print('\n=== Sample Data ===')
+print('\n--- Users ---')
+for user in User.objects.all()[:3]:
+    print(f'- {user.username} ({user.first_name} {user.last_name})')
+
+print('\n--- Listings ---')
+for listing in Listing.objects.all()[:3]:
+    print(f'- {listing.title} in {listing.location} - ${listing.price_per_night}/night')
+
+print('\n--- Bookings ---')
+for booking in Booking.objects.all()[:3]:
+    print(f'- {booking.user.username} booked {booking.listing.title} ({booking.status})')
+
+print('\n--- Reviews ---')
+for review in Review.objects.all()[:3]:
+    print(f'- {review.user.username}: {review.rating}/5 stars for {review.listing.title}')
+"
+cd "/home/fadel/Workspaces/ALX PROJECT/alx_travel_app_0x00" && python manage.py shell -c "
+from listings.models import *
+from django.contrib.auth.models import User
+
+print('=== DATABASE VERIFICATION ===')
+print(f'Users: {User.objects.count()}')
+print(f'Listings: {Listing.objects.count()}')
+print(f'Bookings: {Booking.objects.count()}')
+print(f'Reviews: {Review.objects.count()}')
+print()
+
+print('=== SAMPLE LISTING ===')
+listing = Listing.objects.first()
+if listing:
+    print(f'Title: {listing.title}')
+    print(f'Location: {listing.location}')
+    print(f'Price: ${listing.price_per_night}/night')
+    print(f'Host: {listing.host.username}')
+    print(f'Max Guests: {listing.max_guests}')
+print()
+
+print('=== SAMPLE BOOKING ===')
+booking = Booking.objects.first()
+if booking:
+    print(f'Booking ID: {booking.booking_id}')
+    print(f'Listing: {booking.listing.title}')
+    print(f'Guest: {booking.user.username}')
+    print(f'Dates: {booking.check_in_date} to {booking.check_out_date}')
+    print(f'Status: {booking.status}')
+    print(f'Total: ${booking.total_price}')
+print()
+
+print('=== SAMPLE REVIEW ===')
+review = Review.objects.first()
+if review:
+    print(f'Review ID: {review.review_id}')
+    print(f'Listing: {review.listing.title}')
+    print(f'User: {review.user.username}')
+    print(f'Rating: {review.rating}/5')
+    print(f'Comment: {review.comment[:100]}...')
+"
+cd "/home/fadel/Workspaces/ALX PROJECT/alx_travel_app_0x00" && mv alx_travel_app/listings listings
+cd "/home/fadel/Workspaces/ALX PROJECT/alx_travel_app_0x00" && rm -rf alx_travel_app/__pycache__/
+cd "/home/fadel/Workspaces/ALX PROJECT/alx_travel_app_0x00" && rm -rf listings/__pycache__/
+cd "/home/fadel/Workspaces/ALX PROJECT/alx_travel_app_0x00" && python manage.py check
+cd "/home/fadel/Workspaces/ALX PROJECT/alx_travel_app_0x00" && python manage.py makemigrations
+cd "/home/fadel/Workspaces/ALX PROJECT/alx_travel_app_0x00" && mv listings alx_travel_app/
+cd "/home/fadel/Workspaces/ALX PROJECT/alx_travel_app_0x00" && find . -name "__pycache__" -type d -exec rm -rf {} + 2>/dev/null || true
+cd "/home/fadel/Workspaces/ALX PROJECT/alx_travel_app_0x00" && python manage.py shell -c "
+from alx_travel_app.listings.models import *
+from django.contrib.auth.models import User
+
+print('=== VRIFICATION FINALE DE LA BASE DE DONNES ===')
+print(f'Utilisateurs: {User.objects.count()}')
+print(f'Listings: {Listing.objects.count()}')
+print(f'Rservations: {Booking.objects.count()}')
+print(f'Avis: {Review.objects.count()}')
+print()
+
+print('=== EXEMPLE DE DONNES ===')
+listing = Listing.objects.first()
+if listing:
+    print(f'Premier listing: {listing.title}  {listing.location}')
+    print(f'Prix: ${listing.price_per_night}/nuit')
+    print(f'Htttte: {listing.host.username}')
+
+booking = Booking.objects.first()
+if booking:
+    print(f'Premire rservation: {booking.user.username} -> {booking.listing.title}')
+    print(f'Dates: {booking.check_in_date}  {booking.check_out_date}')
+    print(f'Status: {booking.status}')
+"
